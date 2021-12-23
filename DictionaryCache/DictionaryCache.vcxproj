@@ -18,11 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DictionaryCache.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{63883323-f3cc-4c4b-b7c4-e3457c541723}</ProjectGuid>
-    <RootNamespace>UserInterfaceConsole</RootNamespace>
+    <ProjectGuid>{871c1a53-b6b1-40a1-82e2-886c9ad1db4f}</ProjectGuid>
+    <RootNamespace>DictionaryCache</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,27 +141,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="ColourCOUT.h" />
-    <ClInclude Include="UILR22Y1S.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="UILR32Y1SCycle.h" />
-    <ClInclude Include="UIMainCycle.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ColourCOUT.cpp" />
-    <ClCompile Include="UILR22Y1S.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="UI.cpp" />
-    <ClCompile Include="UILR22Y1SCycle.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="UILR32Y1SCycle.cpp" />
-    <ClCompile Include="UIMainCycle.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

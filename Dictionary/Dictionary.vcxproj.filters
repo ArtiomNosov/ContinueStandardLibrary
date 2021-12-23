@@ -15,40 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UIMainCycle.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="UILR32Y1SCycle.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="ColourCOUT.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="UILR22Y1S.hpp">
+    <ClInclude Include="Dictionary.hpp">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="UIMainCycle.cpp">
+    <ClInclude Include="QueueDictionary.hpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="UILR32Y1SCycle.cpp">
+    </ClInclude>
+    <ClInclude Include="SequenceDictionary.hpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
+    </ClInclude>
+    <ClInclude Include="AVLDictionary.hpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="ColourCOUT.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="UILR22Y1S.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="UILR22Y1SCycle.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
+    </ClInclude>
   </ItemGroup>
 </Project>

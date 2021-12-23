@@ -1,10 +1,8 @@
-﻿// ContinueStandardLibrary.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
-#include <iostream>
-
+﻿#include <iostream>
+#include "../Graph/GraphAdjacencyList.h"
 int main()
 {
+    csl::GraphAdjacencyList<int> g;
     std::cout << "Hello World!\n";
 }
 

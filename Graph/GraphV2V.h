@@ -16,9 +16,8 @@ namespace csl {
     template<class IdTy>
     class GraphV2V//: Graph<VertexV2V<IdTy>, EdgeV2V<IdTy>>
     {
+    private:
         std::vector<VertexV2V<IdTy>> V; // Vertexs
-        std::vector<EdgeV2V<IdTy>> E; // Edges - not actual sometimes because there no function sync
-
     public:
         GraphV2V();
         GraphV2V(VertexV2V<IdTy>& v);
@@ -39,6 +38,7 @@ namespace csl {
         VertexV2V<IdTy>& operator[](IdTy& id) noexcept;
 
     public:
+        using ArraySequence = std::vector<VertexV2V<IdTy>>;
         GraphV2V<IdTy>&& Coloring(GraphV2V& g)
         {
             size_t cv = g.V.size();
@@ -70,6 +70,7 @@ namespace csl {
             }
             return std::move(*(new GraphV2V<IdTy>(colorGraph)));
         }  // O(n!)
+
         GraphV2V&& Coloring();              // O(n!)
         bool isColoring(GraphV2V& g);       // Linear O(n)
         bool isColoring();                  // Linear O(n)
@@ -83,7 +84,8 @@ namespace csl {
         }
         VertexV2V<IdTy>* Find(IdTy& id) { return Find(V, id); }
         int Size() { return V.size(); };                        // Linear O(n)
-        decltype(V.begin()) Begin() { return V.begin(); };      // Linear O(n)
+        decltype(V.begin()) Begin() { return V.begin(); }; 
+// Linear O(n)
         decltype(V.begin()) End() { return V.end(); };          // Linear O(n)
 
     public:
@@ -167,7 +169,6 @@ namespace csl {
         // Source Ru: https://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0_%D0%BE_%D0%BA%D1%80%D0%B0%D1%82%D1%87%D0%B0%D0%B9%D1%88%D0%B5%D0%BC_%D0%BF%D1%83%D1%82%D0%B8#:~:text=%D0%97%D0%B0%D0%B4%D0%B0%CC%81%D1%87%D0%B0%20%D0%BE%20%D0%BA%D1%80%D0%B0%D1%82%D1%87%D0%B0%CC%81%D0%B9%D1%88%D0%B5%D0%BC%20%D0%BF%D1%83%D1%82%D0%B8%CC%81%20%E2%80%94%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0,%D0%BC%D0%BD%D0%BE%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%BE%20%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D0%BE%D0%B2%20%D0%B4%D0%BB%D1%8F%20%D0%B5%D1%91%20%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D1%8F.
         // Source Eng: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
         // virtual GraphV2V& DijkstrasAlgorithm(VertexV2V<IdTy>& vertex) override;
-
     };
 }
 

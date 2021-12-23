@@ -141,12 +141,15 @@
   <ItemGroup>
     <ClInclude Include="Combinatorics.h" />
     <ClInclude Include="Edge.h" />
+    <ClInclude Include="EdgeAdjacencyList.h" />
     <ClInclude Include="EdgeV2V.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="GraphAdjacencyList.h" />
     <ClInclude Include="GraphV2V.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RandomGraphV2V.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexAdjacencyList.h" />
     <ClInclude Include="VertexV2V.h" />
   </ItemGroup>
   <ItemGroup>

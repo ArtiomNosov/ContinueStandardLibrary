@@ -7,12 +7,13 @@
 *	Email: artiom-nj@mail.ru
 */
 #include "Edge.h"
+#include "VertexV2V.h"
 namespace csl
 {
     template<class T>
     class EdgeV2V : public Edge<T>
     {
-
+        // std::pair<VertexV2V<T>*> V;
     public:
         EdgeV2V() {}
         EdgeV2V(T idFirst, T idSecond)
