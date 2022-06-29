@@ -1,18 +1,72 @@
 ﻿#include <iostream>
-#include "../Graph/GraphAdjacencyList.h"
-int main()
+template<class T>
+class Object
 {
-    csl::GraphAdjacencyList<int> g;
-    std::cout << "Hello World!\n";
+	T Data;
+public:
+	Object(T&);
+	// Object() { Data(); };
+	~Object();
+
+	/*T Get()
+	{
+		return Data;
+	}*/
+	T Get()
+	{
+		return Data;
+	}
+	Object& operator=(Object& val)
+	{
+		Data = val.Data;
+		return *this;
+	}
+	Object& operator=(T& val)
+	{
+		Data = val;
+		return *this;
+	}
+};
+class Cat
+{
+public:
+	Cat();
+	~Cat();
+
+private:
+
+};
+
+Cat::Cat()
+{
 }
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+Cat::~Cat()
+{
+}
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
+template<class T>
+Object<T>::Object(T& data)
+{
+	Data = data;
+}
+
+template<class T>
+Object<T>::~Object()
+{
+	// delete Data;
+}
+int main()
+{
+	int a = 5;
+	int b = 10;
+	Object<int> A(a);
+	Object<int> B(b);
+	Object<int> C(B);
+	B = a;
+	// B = A.Get();
+	a = A.Get();
+	// B = A.Get();
+	B = a;
+	std::cout << "Hello World!\n";
+}

@@ -1,8 +1,6 @@
 #ifndef link_list_hpp
 #define link_list_hpp
 
-#include "Sequence.hpp"
-
 #include <stdexcept>
 #include <string>
 #include <sstream>
@@ -11,23 +9,25 @@ const std::string INDEX_OUT_OF_RANGE = "Index out of range";
 const std::string SIZE_LESS_0 = "Size is less than 0";
 
 
-template <typename T> class Node{
-public:
-    T value;
-    Node<T>* next_el;
-
-    Node(){
-        value;
-        next_el = nullptr;
-    };
-    Node(T value, Node<T>* next_el){
-        this->value = value;
-        this->next_el = next_el;
-    };
-};
 
 template <typename T> class LinkedList {
 private:
+
+    template <typename T> class Node {
+    public:
+        T value;
+        Node<T>* next;
+
+        Node() {
+            value;
+            next = nullptr;
+        };
+        Node(T value, Node<T>* next) {
+            this->value = value;
+            this->next = next;
+        };
+    };
+
     Node<T>* head = nullptr;
     int size;
 public:
@@ -68,7 +68,7 @@ public:
         while (head != nullptr){
             buf = head;
             delete buf;
-            head = head->next_el;
+            head = head->next;
         }
         size = 0;
     }
@@ -92,7 +92,7 @@ public:
         }
         Node<T>* buff = head;
         for(int i = 0; i < index; i++){
-            buff = buff->next_el;
+            buff = buff->next;
         }
         return buff->value;
     };
@@ -117,7 +117,7 @@ public:
     void Append(T value){
         Node<T>* newElem = new Node<T>;
         newElem->value = value;
-        newElem->next_el = nullptr;
+        newElem->next = nullptr;
         if(head == nullptr) {
             head = newElem;
             size = 1;
@@ -126,11 +126,11 @@ public:
             Node<T>* buf;
             buf = head;
             //after while buf point on last el in list
-            while(buf->next_el != nullptr){
-                buf = buf->next_el;
+            while(buf->next != nullptr){
+                buf = buf->next;
             }
             size++;
-            buf->next_el = newElem;
+            buf->next = newElem;
         }
     };
     void Prepend(T value){
@@ -143,10 +143,10 @@ public:
         }
         Node<T>* buff = head;
         for(int i = 0; i < index-1; i++){
-            buff = buff->next_el;
+            buff = buff->next;
         }
-        Node<T>* new_node = new Node<T>(value, buff->next_el);
-        buff->next_el = new_node;
+        Node<T>* new_node = new Node<T>(value, buff->next);
+        buff->next = new_node;
         size++;
     };
     void Set(T value, int index){
@@ -154,7 +154,7 @@ public:
             throw std::out_of_range(INDEX_OUT_OF_RANGE);
         Node<T>* buff = head;
         for (int i = 0; i < index; i++)
-            buff = buff->next_el;
+            buff = buff->next;
         buff->value = value;
     }
     LinkedList<T>* Concat(LinkedList<T>* list){
@@ -162,10 +162,10 @@ public:
         newList->head = this->head;
         Node<T>* buff = this->head;
         for(int i = 0; i < this->GetLength() - 1; i++){
-            buff = buff->next_el;
+            buff = buff->next;
         };
         newList->size = list->size + this->size;
-        buff->next_el = list->head;
+        buff->next = list->head;
         return newList;
     };
 
@@ -177,7 +177,7 @@ public:
         }
         Node<T>* buff = head;
         for (int i = 0; i < index; i++) {
-            buff = buff->next_el;
+            buff = buff->next;
         }
         return buff;
     };
@@ -194,7 +194,7 @@ public:
             if (buff->value == item){
                 res = 1;
             }
-            buff = buff->next_el;
+            buff = buff->next;
         }
         return res;
     }
@@ -206,7 +206,7 @@ public:
                 if (buff->value == item){
                     return buff->value;
                 }
-                buff = buff->next_el;
+                buff = buff->next;
             }
         }
         throw std::out_of_range(INDEX_OUT_OF_RANGE);
@@ -214,15 +214,15 @@ public:
     
     void DeleteOnIndex(int delta, Node<T>* node){
         if (delta == 1){
-            if (node->next_el->next_el != nullptr){
-                node->next_el = node->next_el->next_el;
+            if (node->next->next != nullptr){
+                node->next = node->next->next;
             }
             else{
-                node->next_el = nullptr;
+                node->next = nullptr;
             }
             return;
         }
-        DeleteOnIndex(delta - 1, node->next_el);
+        DeleteOnIndex(delta - 1, node->next);
     }
     
     void DeleteOnIndex(int index){
@@ -231,7 +231,7 @@ public:
         }
         
         if (index == 0){
-            head = head->next_el;
+            head = head->next;
             return;
         }
         
@@ -247,7 +247,7 @@ public:
                     this->size -= 1;
                     return;
                 }
-                buff = buff->next_el;
+                buff = buff->next;
             }
         }
     }

@@ -10,8 +10,8 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include "SequenceDictionary.hpp"
-#include "Pair.hpp"
+// #include "SequenceDictionary.hpp"
+// #include "Pair.hpp"
 
 void sequenceDictionaryTests();
 

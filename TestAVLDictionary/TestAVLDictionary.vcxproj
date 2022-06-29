@@ -22,7 +22,9 @@
     <ClInclude Include="AVLDictionaryTest.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AVLDictionaryTest.cpp" />
+    <ClCompile Include="AVLDictionaryTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
