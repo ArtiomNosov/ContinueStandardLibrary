@@ -43,8 +43,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DecisionTree", "DecisionTre
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartPointer", "SmartPointer\SmartPointer.vcxproj", "{3F41B5FD-415C-48D2-AFA9-45204F3DA5C7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringProcessors", "StringProcessors\StringProcessors.vcxproj", "{38F21434-077C-4FB7-951B-331C6B286033}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestStringProcessors", "TestStringProcessors\TestStringProcessors.vcxproj", "{4C463DD2-4BB1-421B-A76C-A62C22435133}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleGraph", "SimpleGraph\SimpleGraph.vcxproj", "{0FEBC191-3AF5-44BD-B08D-89DECA1CCEC9}"
@@ -219,14 +217,6 @@ Global
 		{3F41B5FD-415C-48D2-AFA9-45204F3DA5C7}.Release|x64.Build.0 = Release|x64
 		{3F41B5FD-415C-48D2-AFA9-45204F3DA5C7}.Release|x86.ActiveCfg = Release|Win32
 		{3F41B5FD-415C-48D2-AFA9-45204F3DA5C7}.Release|x86.Build.0 = Release|Win32
-		{38F21434-077C-4FB7-951B-331C6B286033}.Debug|x64.ActiveCfg = Debug|x64
-		{38F21434-077C-4FB7-951B-331C6B286033}.Debug|x64.Build.0 = Debug|x64
-		{38F21434-077C-4FB7-951B-331C6B286033}.Debug|x86.ActiveCfg = Debug|Win32
-		{38F21434-077C-4FB7-951B-331C6B286033}.Debug|x86.Build.0 = Debug|Win32
-		{38F21434-077C-4FB7-951B-331C6B286033}.Release|x64.ActiveCfg = Release|x64
-		{38F21434-077C-4FB7-951B-331C6B286033}.Release|x64.Build.0 = Release|x64
-		{38F21434-077C-4FB7-951B-331C6B286033}.Release|x86.ActiveCfg = Release|Win32
-		{38F21434-077C-4FB7-951B-331C6B286033}.Release|x86.Build.0 = Release|Win32
 		{4C463DD2-4BB1-421B-A76C-A62C22435133}.Debug|x64.ActiveCfg = Debug|x64
 		{4C463DD2-4BB1-421B-A76C-A62C22435133}.Debug|x64.Build.0 = Debug|x64
 		{4C463DD2-4BB1-421B-A76C-A62C22435133}.Debug|x86.ActiveCfg = Debug|Win32
