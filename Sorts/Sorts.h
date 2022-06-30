@@ -193,25 +193,69 @@ namespace csl {
         }
         return res;
     }
-
+    
+    template<typename T>
+    struct Node
+    {
+        T* data;
+        struct Node<T>* left, * right;
+    };
+    //Function to create new Node
+    template<typename T>
+    struct Node<T>* newnode(T* data)
+    {
+        struct Node<T>* temp = new Node<T>;
+        temp->data = data;
+        temp->left = NULL;
+        temp->right = NULL;
+        return temp;
+    }
+    template<typename T>
+    Node<T>* insert(Node<T>* node, T* data, int (*cmp)(T&, T&))
+    {
+        if (node == NULL) 
+            return newnode(data);//If tree is empty return new node
+        if (cmp(*data, *(node->data)) <= 0)
+            node->left = insert(node->left, data, cmp);
+        else
+            node->right = insert(node->right, data, cmp);
+        return node;
+    }
+    template<typename T, typename Iterator>
+    void store(Node<T>* root, Iterator& itI)
+    {
+        if (root != NULL)
+        {
+            store(root->left, itI);
+            *itI = *(root->data);
+            itI++;
+            store(root->right, itI);
+        }
+    }
     template<typename T, typename Container>
-    Container* treeSort(Container* cont, int (*cmp)(T&, T&), int(*getKey)(T&))
+    Container* treeSort(Container* cont, int (*cmp)(T&, T&))
     {
         int size = cont->size();
         Container* res = new Container(size);
         if (size < 2)
             return res;
-        int i = 0;
-        std::map<T, int> tree;
-        for (i = 0; i < size; i++)
-            tree[getKey((*cont)[i])] = (*cont)[i];
-        i = 0;
-        for (const auto& [key, value] : tree) {
-            (*res)[i] = value;
-            i++;
+
+        struct Node<T>* root = NULL;
+        //Construct binary search tree
+        auto itI = cont->begin();
+        root = insert(root, itI._Ptr, cmp);
+        for (size_t i = 1; i < size; i++) {
+            itI++;
+            insert(root, itI._Ptr, cmp);
         }
+        //Sorting the array using inorder traversal on BST
+        int i = 0;
+        itI = res->begin();
+        store(root, itI);
+
         return res;
     }
+
 
     template<typename T, typename Container>
     void merge(Container* cont, int (*cmp)(T&, T&), int left, int mid, int right)
@@ -299,41 +343,27 @@ namespace csl {
     }
 
     template<typename T, typename Container>
-    int partition(Container* cont, int (*cmp)(T&, T&), int start, int end)
+    void reqursiveQuickSort(Container* cont, int low, int high, int (*cmp)(T&, T&))
     {
-
-        T pivot = (*cont)[start];
-
-        int count = 0;
-        auto itI = std::next(cont->begin(), start + 1);
-        for (int i = start + 1; i <= end; i++) {
-            if (cmp(*itI, pivot) <= 0)
-                count++;
-        }
-
-        int pivotIndex = start + count;
-        itI = std::next(cont->begin(), start);
-        auto itJ = std::next(itI, count);
-        std::iter_swap(itJ, itI);
-
-        int i = start, j = end;
-        itI = std::next(cont->begin(), start);
-        itJ = std::next(cont->begin(), end);
-        while (i < pivotIndex && j > pivotIndex) {
-
-            while (cmp(*itI, pivot) <= 0) {
+        int i = low;
+        int j = high;
+        T pivot = (*cont)[(i + j) / 2];
+        auto itI = std::next(cont->begin(), low);
+        auto itJ = std::next(cont->begin(), high);
+        while (i <= j)
+        {
+            while (cmp(*itI, pivot) < 0) {
                 i++;
                 itI++;
             }
-
             while (cmp(*itJ, pivot) > 0) {
                 j--;
-                if (j > 0)
+                if(j > 0)
                     itJ--;
             }
-
-            if (i < pivotIndex && j > pivotIndex) {
-                std::iter_swap(itJ, itI);
+            if (i <= j)
+            {
+                std::iter_swap(itI, itJ);
                 i++;
                 itI++;
                 j--;
@@ -341,27 +371,11 @@ namespace csl {
                     itJ--;
             }
         }
-
-        return pivotIndex;
+        if (j > low)
+            reqursiveQuickSort(cont, low, j, cmp);
+        if (i < high)
+            reqursiveQuickSort(cont, i, high, cmp);
     }
-
-    template<typename T, typename Container>
-    void reqursiveQuickSort(Container* cont, int (*cmp)(T&, T&), int start, int end)
-    {
-        // base case
-        if (start >= end)
-            return;
-
-        // partitioning the array
-        int p = partition(cont, cmp, start, end);
-
-        // Sorting the left part
-        reqursiveQuickSort(cont, cmp, start, p - 1);
-
-        // Sorting the right part
-        reqursiveQuickSort(cont, cmp, p + 1, end);
-    }
-    // res - copy of cont with sorted part between l and r indexes	 
     template<typename T, typename Container>
     Container* quickSort(Container* cont, int (*cmp)(T&, T&))
     {
@@ -369,7 +383,7 @@ namespace csl {
         int size = res->size();
         if (size < 2)
             return res;
-        reqursiveQuickSort(res, cmp, 0, size - 1);
+        reqursiveQuickSort(res, 0, size - 1, cmp);
         return res;
     }
     int incBase(int n)

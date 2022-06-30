@@ -91,7 +91,7 @@ TEST(TestTreeSort, TestSTDVector) {
 	auto v = new std::vector<int>;
 	for (int i = 0; i < 10; i++)
 		v->push_back(i % 4);
-	std::vector<int>* res = csl::treeSort(v, cmpInt, getKeyInt);
+	std::vector<int>* res = csl::treeSort(v, cmpInt);
 	EXPECT_TRUE(checkSorted(*res, cmpInt));
 }
 TEST(TestMergeSortIterative, TestSTDVector) {
