@@ -23,14 +23,23 @@ int checkSorted(Container& cont, int (*cmp)(T&, T&))
 	int size = cont.size();
 	int res = true;
 	for (int i = 0; i < size - 1; i++)
-		if (cmp(cont[i], cont[i + 1]) > 0)
+		if (cmp(cont[i], cont[i + 1]) > 0) {
 			res = false;
+			break;
+		}
 	return res;
 }
-TEST(TestBubbleSort_, TestSorts_) {
-	std::vector<int> v;
+TEST(TestBubbleSort, TestSTDVector) {
+	auto v = new std::vector<int>;
 	for (int i = 0; i < 10; i++)
-		v.push_back(i % 4);
-	auto res = csl::bubbleSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(res, cmpInt));
+		v->push_back(i % 4);
+	std::vector<int>* res = csl::bubbleSort(v, cmpInt);
+	EXPECT_TRUE(checkSorted(*res, cmpInt));
+}
+TEST(TestShakerSort, TestSTDVector) {
+	auto v = new std::vector<int>;
+	for (int i = 0; i < 10; i++)
+		v->push_back(i % 4);
+	std::vector<int>* res = csl::shakerSort(v, cmpInt);
+	EXPECT_TRUE(checkSorted(*res, cmpInt));
 }
