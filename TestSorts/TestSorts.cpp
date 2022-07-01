@@ -9,6 +9,13 @@
 // EXPECT_EQ(1, 1);
 #include <vector>
 #include "../Sorts/Sorts.h"
+#define prepearContainer(C)                     \
+                                                \
+    auto v = new C;				                \
+	forInc(i, 0, 10)							\
+		v->push_back(i % 4);					\
+
+
 int cmpInt(int& a, int& b) {
 	if (a > b)
 		return 1;
@@ -18,7 +25,7 @@ int cmpInt(int& a, int& b) {
 		return 0;
 }
 template<typename T, typename Container>
-int checkSorted(Container& cont, int (*cmp)(T&, T&))
+int checkSorted(Container& cont, int(*cmp)(T&, T&))
 {
 	int size = cont.size();
 	int res = true;
@@ -29,114 +36,51 @@ int checkSorted(Container& cont, int (*cmp)(T&, T&))
 		}
 	return res;
 }
-TEST(TestBubbleSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::bubbleSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestShakerSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::shakerSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestInsertionSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::insertionSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestSelectionSortSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::selectionSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
+#define testSortSpec(A, B, C, T, S, A3)				\
+TEST(A, B) {										\
+/* Arrange */										\
+prepearContainer(C<T>)								\
+													\
+/* Act */											\
+auto res = S(v, cmpInt, A3);					    \
+													\
+/* Assert */										\
+EXPECT_TRUE(checkSorted(*res, cmpInt));				\
+}																										
+
+#define testSort(A, B, C, T, S)						\
+TEST(A, B) {										\
+/* Arrange */										\
+prepearContainer(C<T>)								\
+													\
+/* Act */											\
+auto res = S(v, cmpInt);							\
+													\
+/* Assert */										\
+EXPECT_TRUE(checkSorted(*res, cmpInt));				\
+}													
+
+testSort(bubbleSort, STDVector, std::vector, int, csl::bubbleSort)
+testSort(shakerSort, STDVector, std::vector, int, csl::shakerSort)
+testSort(insertionSort, STDVector, std::vector, int, csl::insertionSort)
+testSort(selectionSort, STDVector, std::vector, int, csl::selectionSort)
 int getKeyInt(int& n)
 {
 	return n;
 }
-TEST(TestCountingSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::countingSort(v, cmpInt, getKeyInt, 4);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestBinaryInsertionSort, TestSTDVector) {
-	// Arrange
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-
-	// Act
-	std::vector<int>* res = csl::binaryInsertionSort(v, cmpInt);
-
-	// Assert
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestSquareSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::squareSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestTreeSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::treeSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestMergeSortIterative, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::mergeSortIterative(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestHeapSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::heapSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestQuickSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::quickSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestShellSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::shellSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
+#define ArgCountingSort getKeyInt, 4
+testSortSpec(CountingSort, STDVector, std::vector, int, csl::countingSort, ArgCountingSort)
+testSort(BinaryInsertionSort, STDVector, std::vector, int, csl::binaryInsertionSort)
+testSort(SquareSort, STDVector, std::vector, int, csl::squareSort)
+testSort(TreeSort, STDVector, std::vector, int, csl::treeSort)
+testSort(MergeSortIterative, STDVector, std::vector, int, csl::mergeSortIterative)
+testSort(HeapSort, STDVector, std::vector, int, csl::heapSort)
+testSort(QuickSort, STDVector, std::vector, int, csl::quickSort)
+testSort(ShellSort, STDVector, std::vector, int, csl::shellSort)
 int inc3(int n)
 {
 	return n / 3;
 }
-TEST(TestShellSortWithFunction, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::shellSort(v, cmpInt, inc3);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
-TEST(TestBitonicSort, TestSTDVector) {
-	auto v = new std::vector<int>;
-	for (int i = 0; i < 10; i++)
-		v->push_back(i % 4);
-	std::vector<int>* res = csl::bitonicSort(v, cmpInt);
-	EXPECT_TRUE(checkSorted(*res, cmpInt));
-}
+
+testSortSpec(ShellSortWithFunction, STDVector, std::vector, int, csl::shellSort, inc3)
+testSort(BitonicSort, STDVector, std::vector, int, csl::bitonicSort)

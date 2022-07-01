@@ -12,7 +12,7 @@ public:
     virtual T& GetLast() = 0; // get el on last index
     virtual T& Get(int index) = 0; // get index of Node
     virtual Sequence<T>* GetSubsequence(int startIndex, int endIndex) = 0; // get list of el
-    virtual int GetLength() = 0;// Length
+    virtual int GetLength() = 0; // Length
     virtual T& GetItem(T& item) = 0;
 
     // Operations
