@@ -34,10 +34,12 @@ namespace csl {
     #define iterEnd(A) A->end()
     #define getElem(C, I) (*C)[I]
     #define assign(A, I, B, J) getElem(A, I) = getElem(B, J)
-    #define forIncSpec(A, B, E, O) for (int A = B; A < E; A O)
-    #define forDecSpec(A, B, E, O) for (int A = B; A > E; A O)
+    #define forIncSpec(A, B, E, O) for (auto A = B; A < E; A O)
+    #define forDecSpec(A, B, E, O) for (auto A = B; A > E; A O)
     #define forInc(A, B, E) forIncSpec(A, B, E, ++)
+    #define forIncType(A, B, E) forIncSpec(A, B, E, ++)
     #define forDec(A, B, E) forDecSpec(A, B, E, --)
+    #define initVector(T, n) auto vector = new std::vector<T>(n)    
     // 01.07.2022
     template<typename T, typename Container>
     Container* bubbleSort(Container* cont, int (*cmp)(T&, T&))
@@ -334,50 +336,50 @@ namespace csl {
 
         return res;
     }
-    // 01.07.2022 help function
-    namespace sorts {
-        template<typename T, typename Container, typename Iterator>
-        void heapify(Container* cont, int size, int (*cmp)(T&, T&), int i, Iterator itI)
-        {
-            int largest = i;
-            int l = 2 * i + 1;
-            int r = 2 * i + 2;
+    //// 01.07.2022 help function
+    //namespace sorts {
+    //    template<typename T, typename Container, typename Iterator>
+    //    void heapify(Container* cont, int size, int (*cmp)(T&, T&), int i, Iterator itI)
+    //    {
+    //        int largest = i;
+    //        int l = 2 * i + 1;
+    //        int r = 2 * i + 2;
 
-            if (l < size && (cmp(getElem(cont, l), getElem(cont, largest)) > 0))
-                largest = l;
+    //        if (l < size && (cmp(getElem(cont, l), getElem(cont, largest)) > 0))
+    //            largest = l;
 
-            if (r < size && (cmp(getElem(cont, r), getElem(cont, largest)) > 0))
-                largest = r;
+    //        if (r < size && (cmp(getElem(cont, r), getElem(cont, largest)) > 0))
+    //            largest = r;
 
-            auto itLargest = iterNext(iterBegin(cont), largest);
-            if (largest != i) {
-                iterSwap(itI, itLargest);
-                heapify(cont, size, cmp, largest, itLargest);
-            }
-        }
-    }
-    // 01.07.2022
-    template<typename T, typename Container>
-    Container* heapSort(Container* cont, int (*cmp)(T&, T&))
-    {
-        initResContAndCheckSize
+    //        auto itLargest = iterNext(iterBegin(cont), largest);
+    //        if (largest != i) {
+    //            iterSwap(itI, itLargest);
+    //            heapify(cont, size, cmp, largest, itLargest);
+    //        }
+    //    }
+    //}
+    //// 01.07.2022
+    //template<typename T, typename Container>
+    //Container* heapSort(Container* cont, int (*cmp)(T&, T&))
+    //{
+    //    initResContAndCheckSize
 
-        auto itI = iterNext(iterBegin(res), size / 2 - 1);
-        forDec(i, size / 2 - 1, -1) {
-            sorts::heapify(res, size,  cmp, i, itI);
-            if (i > 0)
-                itI--;
-        }
-        itI = iterNext(iterBegin(res), size - 1);
-        forDec(i, size - 1, -1) {
-            iterSwap(iterBegin(res), itI);
-            sorts::heapify(res, i, cmp, 0, itI);
-            if (i > 0)
-                itI--;
-        }
+    //    auto itI = iterNext(iterBegin(res), size / 2 - 1);
+    //    forDec(i, size / 2 - 1, -1) {
+    //        sorts::heapify(res, size,  cmp, i, itI);
+    //        if (i > 0)
+    //            itI--;
+    //    }
+    //    itI = iterNext(iterBegin(res), size - 1);
+    //    forDec(i, size - 1, -1) {
+    //        iterSwap(iterBegin(res), itI);
+    //        sorts::heapify(res, i, cmp, 0, itI);
+    //        if (i > 0)
+    //            itI--;
+    //    }
 
-        return res;
-    }
+    //    return res;
+    //}
     // 01.07.2022 help function
     namespace sorts {
         template<typename T, typename Container>
@@ -455,86 +457,149 @@ namespace csl {
 
         return res;
     }
-    // 01.07.2022 help functions
-    namespace sorts {
-        /*The parameter dir indicates the sorting direction, ASCENDING
-        or DESCENDING; if (a[i] > a[j]) agrees with the direction,
-        then a[i] and a[j] are interchanged.*/
-        template<typename T, typename Container, typename Iterator>
-        void compAndSwap(Container* cont, int (*cmp)(T&, T&), Iterator itI, Iterator itJ, int dir)
-        {
-            if (dir == (cmp(*itI, *itJ) > 0))
-                iterSwap(itI, itJ);
-        }
-        /*It recursively sorts a bitonic sequence in ascending order,
-        if dir = 1, and in descending order otherwise (means dir=0).
-        The sequence to be sorted starts at index position low,
-        the parameter cnt is the number of elements to be sorted.*/
-        template<typename T, typename Container>
-        void bitonicMerge(Container* cont, int (*cmp)(T&, T&), int low, int cnt, int dir)
-        {
-            if (cnt > 1)
-            {
-                int k = cnt / 2;
-                auto itI = iterNext(iterBegin(cont), low);
-                auto itIK = iterNext(itI, k);
-                forInc(i, low, low + k) {
-                    compAndSwap(cont, cmp, itI, itIK, dir);
-                    itI++;
-                    itIK++;
-                }
-                bitonicMerge(cont, cmp, low, k, dir);
-                bitonicMerge(cont, cmp, low + k, k, dir);
-            }
-        }
-        /* This function first produces a bitonic sequence by recursively
-            sorting its two halves in opposite sorting orders, and then
-            calls bitonicMerge to make them in the same order */
-        template<typename T, typename Container>
-        void reqursiveBitonicSort(Container* cont, int (*cmp)(T&, T&), int low, int cnt, int dir)
-        {
-            if (cnt > 1)
-            {
-                int k = cnt / 2;
+    //// 01.07.2022 help functions
+    //namespace sorts {
+    //    /*The parameter dir indicates the sorting direction, ASCENDING
+    //    or DESCENDING; if (a[i] > a[j]) agrees with the direction,
+    //    then a[i] and a[j] are interchanged.*/
+    //    template<typename T, typename Container, typename Iterator>
+    //    void compAndSwap(Container* cont, int (*cmp)(T&, T&), Iterator itI, Iterator itJ, int dir)
+    //    {
+    //        if (dir == (cmp(*itI, *itJ) > 0))
+    //            iterSwap(itI, itJ);
+    //    }
+    //    /*It recursively sorts a bitonic sequence in ascending order,
+    //    if dir = 1, and in descending order otherwise (means dir=0).
+    //    The sequence to be sorted starts at index position low,
+    //    the parameter cnt is the number of elements to be sorted.*/
+    //    template<typename T, typename Container>
+    //    void bitonicMerge(Container* cont, int (*cmp)(T&, T&), int low, int cnt, int dir)
+    //    {
+    //        if (cnt > 1)
+    //        {
+    //            int k = cnt / 2;
+    //            auto itI = iterNext(iterBegin(cont), low);
+    //            auto itIK = iterNext(itI, k);
+    //            forInc(i, low, low + k) {
+    //                compAndSwap(cont, cmp, itI, itIK, dir);
+    //                itI++;
+    //                itIK++;
+    //            }
+    //            bitonicMerge(cont, cmp, low, k, dir);
+    //            bitonicMerge(cont, cmp, low + k, k, dir);
+    //        }
+    //    }
+    //    /* This function first produces a bitonic sequence by recursively
+    //        sorting its two halves in opposite sorting orders, and then
+    //        calls bitonicMerge to make them in the same order */
+    //    template<typename T, typename Container>
+    //    void reqursiveBitonicSort(Container* cont, int (*cmp)(T&, T&), int low, int cnt, int dir)
+    //    {
+    //        if (cnt > 1)
+    //        {
+    //            int k = cnt / 2;
 
-                // sort in ascending order since dir here is 1
-                reqursiveBitonicSort(cont, cmp, low, k, 1);
+    //            // sort in ascending order since dir here is 1
+    //            reqursiveBitonicSort(cont, cmp, low, k, 1);
 
-                // sort in descending order since dir here is 0
-                reqursiveBitonicSort(cont, cmp, low + k, k, 0);
+    //            // sort in descending order since dir here is 0
+    //            reqursiveBitonicSort(cont, cmp, low + k, k, 0);
 
-                // Will merge whole sequence in "dir" order
-                bitonicMerge(cont, cmp, low, cnt, dir);
-            }
-        }
-        // TODO: change this shit because this is repeat yourself because somfing like this is exist
-        template<typename Container>
-        void reverseContainer(Container* cont)
+    //            // Will merge whole sequence in "dir" order
+    //            bitonicMerge(cont, cmp, low, cnt, dir);
+    //        }
+    //    }
+    //    // TODO: change this shit because this is repeat yourself because somfing like this is exist
+    //    template<typename Container>
+    //    void reverseContainer(Container* cont)
+    //    {
+    //        int size = cont->size();
+    //        if (size < 1)
+    //            return;
+
+    //        auto itI = iterBegin(cont);
+    //        auto itJ = iterEnd(cont);
+    //        forInc(i, 0, size / 2) {
+    //            itJ--;
+    //            iterSwap(itI, itJ);
+    //            itI++;
+    //        }
+    //    }
+    //}
+    //// 01.07.2022
+    //template<typename T, typename Container>
+    //Container* bitonicSort(Container* cont, int (*cmp)(T&, T&))
+    //{
+    //    initResContAndCheckSize
+
+    //    sorts::reqursiveBitonicSort(res, cmp, 0, size, 0);
+    //    sorts::reverseContainer(res);
+
+    //    return res;
+    //}
+
+
+
+
+
+
+
+
+    template<typename T>
+    void heapify(std::vector<T>* arr, int n, int i, int (*cmp)(T&, T&))
+    {
+        int largest = i;
+        // Инициализируем наибольший элемент как корень
+        int l = 2 * i + 1; // левый = 2*i + 1
+        int r = 2 * i + 2; // правый = 2*i + 2
+
+        // Если левый дочерний элемент больше корня
+        if (l < n && cmp(( * arr)[l], (*arr)[largest]) > 0)
+            largest = l;
+
+        // Если правый дочерний элемент больше, чем самый большой элемент на данный момент
+        if (r < n && cmp((*arr)[r], (*arr)[largest]) > 0)
+            largest = r;
+
+        // Если самый большой элемент не корень
+        if (largest != i)
         {
-            int size = cont->size();
-            if (size < 1)
-                return;
+            std::swap(arr[i], arr[largest]);
 
-            auto itI = iterBegin(cont);
-            auto itJ = iterEnd(cont);
-            forInc(i, 0, size / 2) {
-                itJ--;
-                iterSwap(itI, itJ);
-                itI++;
-            }
+            // Рекурсивно преобразуем в двоичную кучу затронутое поддерево
+            heapify(arr, n, largest, cmp);
         }
     }
-    // 01.07.2022
-    template<typename T, typename Container>
-    Container* bitonicSort(Container* cont, int (*cmp)(T&, T&))
-    {
-        initResContAndCheckSize
 
-        sorts::reqursiveBitonicSort(res, cmp, 0, size, 0);
-        sorts::reverseContainer(res);
+    template<typename T, typename Container>
+    Container* heapSort(Container* cont, int(*cmp)(T&, T&)) 
+    {
+        auto arr = new std::vector<T>(*cont);
+        int size = arr->size();       
+        auto res = new Container(*cont);
+        if (size < 2)                           
+            return res;                         
+                                                
+        // Построение кучи (перегруппируем массив)
+        for (int i = size / 2 - 1; i >= 0; i--)
+            heapify(arr, size, i, cmp);
+
+        // Один за другим извлекаем элементы из кучи
+        for (int i = size - 1; i >= 0; i--)
+        {
+            // Перемещаем текущий корень в конец
+            swap(arr[0], arr[i]);
+
+            // вызываем процедуру heapify на уменьшенной куче
+            heapify(arr, i, 0, cmp);
+        }
+
+        *res = *arr;
+        delete arr;
 
         return res;
     }
+
 
 }
 

@@ -9,11 +9,13 @@
 // EXPECT_EQ(1, 1);
 #include <vector>
 #include "../Sorts/Sorts.h"
-#define prepearContainer(C)                     \
-                                                \
-    auto v = new C;				                \
-	forInc(i, 0, 10)							\
-		v->push_back(i % 4);					\
+#define LENGHT_OF_CONTAINER 1000
+#define DENOMINATOR_FOR_GENERATE 25
+#define prepearContainer(C)									\
+															\
+    auto v = new C;											\
+	forInc(i, 0, LENGHT_OF_CONTAINER)						\
+		v->push_back(i % DENOMINATOR_FOR_GENERATE);			\
 
 
 int cmpInt(int& a, int& b) {
@@ -68,7 +70,7 @@ int getKeyInt(int& n)
 {
 	return n;
 }
-#define ArgCountingSort getKeyInt, 4
+#define ArgCountingSort getKeyInt, DENOMINATOR_FOR_GENERATE
 testSortSpec(CountingSort, STDVector, std::vector, int, csl::countingSort, ArgCountingSort)
 testSort(BinaryInsertionSort, STDVector, std::vector, int, csl::binaryInsertionSort)
 testSort(SquareSort, STDVector, std::vector, int, csl::squareSort)
@@ -81,6 +83,5 @@ int inc3(int n)
 {
 	return n / 3;
 }
-
 testSortSpec(ShellSortWithFunction, STDVector, std::vector, int, csl::shellSort, inc3)
-testSort(BitonicSort, STDVector, std::vector, int, csl::bitonicSort)
+// testSort(BitonicSort, STDVector, std::vector, int, csl::bitonicSort)
